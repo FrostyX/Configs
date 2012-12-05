@@ -1,0 +1,9 @@
+<?php
+	class MyClass
+	{
+		/* My comments */
+		__construct()
+		{
+		}
+	}
+?>
