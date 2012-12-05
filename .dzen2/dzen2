@@ -1,0 +1,29 @@
+#!/bin/bash
+HEIGHT=14
+FONT='-*-terminus-medium-r-*-*-12-*-*-*-*-*-*-*'
+ALIGN='l' # l | c | r
+
+
+
+function startDzen
+{
+	touch /tmp/irssi_pipe
+	~/.dzen2/info.pl |dzen2 -h $HEIGHT -fn $FONT -ta $ALIGN -e 'onstart=lower'
+}
+
+function startStopWatch
+{
+	stopwatch -d |dzen2 -y 748 -x 962 -w 200 -h 18 -fn -*-terminus-medium-r-*-*-12-*-*-*-*-*-*-* -ta c -e 'onstart=lower'
+}
+
+function startLoadDzen
+{
+	~/.dzen2/load |dzen2 -y 748 -x 962 -w 200 -h 18 -fn -*-terminus-medium-r-*-*-12-*-*-*-*-*-*-* -ta c -e 'onstart=lower'
+}
+
+startDzen;
+startLoadDzen
+#startStopWatch;
+
+
+# -l 10			vysune se desetiřádkový panel

@@ -1,0 +1,13 @@
+#!/bin/bash
+#http://www.linuxquestions.org/questions/linux-software-2/uptime-bash-script-40761/
+upSeconds=`cat /proc/uptime`;
+upSeconds=${upSeconds%%.*};
+let secs=$((${upSeconds}%60))
+let mins=$((${upSeconds}/60%60))
+let hours=$((${upSeconds}/3600%24))
+let days=$((${upSeconds}/86400))
+
+echo -n "${days}d ${hours}h ${mins}m"
+
+
+#read secs x </proc/uptime; printf "%sd %sh %sm" $((${secs%.*}/86400)) $((${secs%.*}/3600)) $(($((${secs%.*}%3600))/60));
