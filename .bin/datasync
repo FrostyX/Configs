@@ -1,0 +1,30 @@
+#!/bin/bash
+# This script will copy data from given directories to another.
+#	In my case - data directories from laptop to my external hard drive
+#
+# Resources:
+#	http://www.root.cz/clanky/pokrocile-zalohovani-s-rsync/
+
+# Data disk drive
+DEVICE="/media/8A62362062361205"
+
+# Data directories on local drive
+DATA=\
+(
+	'/home/frostyx/data/music'
+	'/home/frostyx/data/movies'
+	'/home/frostyx/data/games'
+	'/home/frostyx/data/applications'
+);
+
+# If device is connected
+if [ -e $DEVICE ]; then
+	i=0
+	while [ ${DATA[$i]} ]
+	do
+		rsync -av ${DATA[$i]} $DEVICE
+		i=$(($i + 1))
+	done
+else
+	echo "Data device $DEVICE is not connected!"
+fi
