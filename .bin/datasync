@@ -22,7 +22,9 @@ if [ -e $DEVICE ]; then
 	i=0
 	while [ ${DATA[$i]} ]
 	do
-		rsync -av ${DATA[$i]} $DEVICE
+		rsync -ai --ignore-existing ${DATA[$i]} $DEVICE |
+			grep -v "/$" |  # Not directories
+			awk '{print $2}' # Not stats from -i (only filenames)
 		i=$(($i + 1))
 	done
 else
