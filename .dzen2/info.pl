@@ -168,7 +168,7 @@ sub cpuTempC(@)
 # -- HDD ---------------------------------------------------------------
 sub hddTemp(@)
 {
-	return `sudo hddtemp -q /dev/$_[0] |awk '{ print \$4; }' |awk 'BEGIN { FS = "°" } ; { print \$1 }'|tr -d '\\n'`;
+	return `/usr/sbin/hddtemp -q /dev/$_[0] |awk '{ print \$4; }' |awk 'BEGIN { FS = "°" } ; { print \$1 }'|tr -d '\\n'`;
 }
 sub hddTempC(@)
 {
@@ -247,9 +247,7 @@ sub volumeC(@)
 # -- WIFI --------------------------------------------------------------
 sub wifiSignal()
 {
-	#return `sudo iwconfig wlan0 |grep Quality |awk '{ print \$2; }' |awk -F'=' -v RS='/' 'RT{print \$NF}' |tr -d '\\n'`;
-
-	my $wifi = `sudo iwconfig wlan0 |grep Quality |awk '{ print \$2; }' |tr -d '\\n'`;
+	my $wifi = `/sbin/iwconfig wlan0 |grep Quality |awk '{ print \$2; }' |tr -d '\\n'`;
 	$wifi = substr($wifi, 8);
 	@wifi = split(/\//, $wifi);
 
