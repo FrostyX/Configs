@@ -1,0 +1,38 @@
+#!/bin/bash
+# Dependences: youtube-dl ffmpeg
+# Usage: youtubemp3 http://www.youtube.com/watch?v=OJgiz-GFFpE
+# Author: FrostyX
+
+# Downloads video
+function download
+{
+	local title=`getTitle`
+	#youtube-dl --output="$title" $url --extract-audio --audio-format="mp3"
+	#youtube-dl -o '%(stitle)s.%(ext)s' $url --extract-audio --audio-format="libmp3lame"
+	#youtube-dl --output="$title" $url --extract-audio --audio-format="libmp3lame"
+	#youtube-dl $url --extract-audio
+	youtube-dl --output="$title" $url
+	ffmpeg -i "$title" -acodec libmp3lame -ac 2 -ab 160 "$title.mp3" -loglevel quiet &&
+		rm "$title"
+}
+
+# Prints name of video
+function getTitle
+{
+	echo `youtube-dl --get-title $url`
+}
+
+# URL as parameter
+url=$1
+
+# If url hasn't been given
+if [ "$url" == "" ]; then
+	echo "Usage:"
+	echo "Pattern: youtubemp3 [url]"
+	echo "Example: youtubemp3 http://www.youtube.com/watch?v=OJgiz-GFFpE"
+else
+	# Download video on given url
+	download
+fi
+
+# EOF
