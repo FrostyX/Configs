@@ -7,10 +7,6 @@
 function download
 {
 	local title=`getTitle`
-	#youtube-dl --output="$title" $url --extract-audio --audio-format="mp3"
-	#youtube-dl -o '%(stitle)s.%(ext)s' $url --extract-audio --audio-format="libmp3lame"
-	#youtube-dl --output="$title" $url --extract-audio --audio-format="libmp3lame"
-	#youtube-dl $url --extract-audio
 	youtube-dl --output="$title" $url
 	ffmpeg -i "$title" -acodec libmp3lame -ac 2 -ab 160 "$title.mp3" -loglevel quiet &&
 		rm "$title"
