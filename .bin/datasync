@@ -24,7 +24,7 @@ if [ -e $DEVICE ]; then
 	do
 		rsync -ai --ignore-existing ${DATA[$i]} $DEVICE |
 			grep -v "/$" |  # Not directories
-			awk '{print $2}' # Not stats from -i (only filenames)
+			cut -d ' ' -f2- # Not stats from -i (only filenames)
 		i=$(($i + 1))
 	done
 else
