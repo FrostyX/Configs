@@ -1,0 +1,25 @@
+#!/bin/bash
+# This script will set highest CPU priority to process by his name
+# Usefull for games, etc
+
+# Array of processes sorted by most important
+PROC=\
+(
+	'League of Legends.exe'
+	'Wow.exe'
+);
+
+# Loop the array
+for x in "${PROC[@]}"
+do
+	# Get PID from process name
+	PID=`pidof $x`
+
+	# Is process running?
+	if [ -n "$PID" ]; then
+
+		# Set priority and end loop
+		taskset -p 1 $PID
+		break
+	fi
+done
