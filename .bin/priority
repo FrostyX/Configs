@@ -5,7 +5,7 @@
 # Array of processes sorted by most important
 PROC=\
 (
-	'League of Legends.exe'
+	'League of Legends.exe' # Have to run priority in whole game. LoL menu has different proccess name
 	'Wow.exe'
 );
 
@@ -18,9 +18,10 @@ do
 
 	# Is process running?
 	if [ -n "$PID" ]; then
-
 		# Set priority and end loop
 		taskset -p 1 $PID
-		break
+		exit
 	fi
 done
+
+echo "No running proccesses from \$PROC"
