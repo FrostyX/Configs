@@ -9,11 +9,12 @@ PROC=\
 	'Wow.exe'
 );
 
+
 # Loop the array
 for x in "${PROC[@]}"
 do
 	# Get PID from process name
-	PID=`pidof $x`
+	PID=`pidof "$x"`
 
 	# Is process running?
 	if [ -n "$PID" ]; then
