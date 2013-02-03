@@ -18,6 +18,9 @@ do
 
 	# Is process running?
 	if [ -n "$PID" ]; then
+		# Print process name
+		echo $x
+
 		# Set priority and end loop
 		taskset -p 1 $PID
 		exit
