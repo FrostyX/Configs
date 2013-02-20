@@ -3,6 +3,8 @@
 # Usage: youtubemp3 http://www.youtube.com/watch?v=OJgiz-GFFpE
 # Author: FrostyX
 
+# @TODO Escape slashes in $title otherwise directory is created
+
 # Downloads video
 function download
 {
