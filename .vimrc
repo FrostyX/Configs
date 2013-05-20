@@ -31,7 +31,6 @@ set autoread
 set nofoldenable
 
 "Tab completion
-"set wildchar=<A-Tab>
 set wildmenu
 set wildmode=longest:full,full
 
@@ -67,27 +66,6 @@ map <F9> :make<CR>
 imap <F9> <Esc>:make<CR>
 "imap ,pp <Esc>:r !xclip -o<CR>
 "imap <C-v> <Esc>!xclip -o<CR>
-"
-
-" Build and run my C/C++ project
-" Must have chdired src folder
-function! BuildAndRun()
-	cd ../build
-	make
-	let l:bin = !"ls ../bin/"
-	"!l:bin
-	!"../bin/".bin
-	"exe !"make"
-	"system("cat CMakeLists.txt |grep ADD_EXECUTABLE |head -n1 |awk -F[\(\)] '{print $2}' |awk '{print $1}'")
-	"command! -nargs=1 Run
-	"\ | !cat CMakeLists.txt
-	"\ | !grep ADD_EXECUTABLE
-	"\ | !head -n1
-	"\ | !awk -F[\(\)] '{print $2}'
-	"\ | !awk '{print $1}'
-	"Run
-	cd ../src
-endfunction
 
 "Git
 nmap ,ga :GitAdd<CR>
@@ -112,8 +90,6 @@ set scrolloff=5
 "Odsazovani
 set autoindent
 set smartindent
-"set expandtab "Nahrazeni TABu mezerami
-"set shiftwidth=4
 
 set backspace=indent,eol,start
 
@@ -128,7 +104,8 @@ set autochdir
 set mousemodel=popup
 
 "colorscheme zellner
-colorscheme wombat
+"colorscheme wombat
+colorscheme darkmirror
 
 "Ignorovani velkych a malych pismen pri vyhledavani
 set ignorecase
@@ -136,45 +113,43 @@ set ignorecase
 "Zobrazeni cisel radku
 set number
 
+"Zvýraznění aktuálního řádku
+set cursorline
+
 "Ukladani prubeznych zaloh
+set backupdir=~/.vim/tmp
 set directory=~/.vim/swp
 
 let maplocalleader = ","
-
-"Sablony
-"autocmd BufNewFile  *.c     0r ~/.vim/templates/template.php
-source ~/.vim/scripts/root.cz_skel.vim
 
 "Nastaveni jazyku pro kontrolu pravopisu
 set spelllang=cs
 set encoding=utf-8
 
-"Slušné ovládání při vizuálním zalamování
-"Ještě dopsat Home/End
-map <Up>   gk
-map <Down> gj
-imap <Up> <C-o>gk
-imap <Down> <C-o>gj
-
-let g:tex_flavor='latex'
-"filetype plugin indent on
+" Sessions
+set ssop-=options    " do not store global and local values in a session
+set ssop-=folds      " do not store folds
 
 
-"Neviditelné znaky
-"http://vimcasts.org/episodes/show-invisibles/
-set list
-set listchars=tab:▸\ ,eol:¬,trail:·
-highlight NonText guifg=#4a4a59
-highlight SpecialKey guifg=#4a4a59
-"highlight SpecialKey guifg=#4a4a59
 
-"map <C-k> dd2kp
 imap ,dd $
 
 "Delete whitespace on save
 "http://vim.wikia.com/wiki/Remove_unwanted_spaces#Automatically_removing_all_trailing_whitespace
 autocmd BufWritePre * :%s/\s\+$//e
 
-function! Reload()
-	so %
-endfunction
+"GUI specific settings
+if has("gui_running")
+	colorscheme wombat
+	set guioptions-=T  "No toolbar
+	set guioptions-=r  "No scrollbar
+
+	"Invisible characters - http://vimcasts.org/episodes/show-invisibles/
+	set list                            "Show invisible characters
+	set listchars=tab:▸\ ,eol:¬,trail:· "Specify what display instead of invisible space
+	highlight NonText guifg=#4a4a59     "EOL character color
+	highlight SpecialKey guifg=#4a4a59  "Tab and space character color
+end
+
+" If I forgot to sudo vim a file, do that with :w!!
+cmap w!! %!sudo tee > /dev/null %
