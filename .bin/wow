@@ -1,0 +1,27 @@
+#!/bin/bash
+# Run WoW with specific realmlist.wtf
+# Usage: ./wow server-name
+# Author: FrostyX
+
+# Servers where I play
+declare -A realmlists
+realmlists['anathema']='anathema.project-nemesis.cz'
+realmlists['deffender']='deffender.herniserver.cz'
+
+# Default realmlist
+realmlist=${realmlists["anathema"]};
+
+# Path to WoW directory
+dir="data/games/WoW"
+
+# Input argument (server name)
+serverName=$1
+
+# If there isnt valid server name from argument, use default realmlist
+if [ ! "$serverName" == "" ] && [ ! "${realmlists["$serverName"]}" == "" ]; then
+	realmlist="${realmlists["$serverName"]}"
+fi
+
+# Set realmlist and start WoW
+echo "set realmlist $realmlist" > "$dir/Data/enGB/realmlist.wtf"
+wine "$dir/Wow.exe"
