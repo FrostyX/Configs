@@ -18,6 +18,7 @@ dir="data/games/WoW"
 serverName=$1
 
 # If there isnt valid server name from argument, use default realmlist
+# (If input isnt empty && if input has defined realmlist in realmlists array)
 if [ "$serverName" != "" ] && [ "${realmlists["$serverName"]}" != "" ]; then
 	realmlist="${realmlists["$serverName"]}"
 fi
