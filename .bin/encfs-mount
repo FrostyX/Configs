@@ -1,0 +1,61 @@
+#!/usr/bin/python
+# Use for easy (u)mount EncFS locations
+# Usage: encfs-mount my-alias
+#        encfs-mount -u my-alias
+# Author: FrostyX
+#
+# http://www.root.cz/clanky/encfs-sifrovani-souboru-jinak-a-bez-problemu/
+
+# Paths to encrypted directories and their aliases
+encrypted = {
+		'fail':'/home/frostyx/.thumbnails/.fail',
+		'karkulka':'/home/frostyx/karkulka',
+		'dropbox':'',
+}
+
+# Where I want mount decrypted folders (Ending with /)
+# When /media/*/ is used, folder is shown in nautilus's left panel as disk
+decrypted_path = '/media/decrypted/'
+
+import sys
+import os
+
+# Mount function
+def mount(encrypted, decrypted):
+	if not os.path.exists(decrypted):
+		os.mkdir(decrypted)
+
+	cmd = "encfs " + encrypted + " " + decrypted
+	os.system(cmd)
+
+# Umount function
+def umount(decrypted):
+	cmd = "fusermount -u " + decrypted
+	os.system(cmd)
+
+	if os.path.exists(decrypted):
+		os.rmdir(decrypted)
+
+
+# Parse arguments
+# Mounting
+if len(sys.argv)==2:
+	if sys.argv[1] not in encrypted:
+		print "No such alias"
+
+	else:
+		mount(encrypted[sys.argv[1]], decrypted_path + sys.argv[1])
+
+# Umounting
+elif len(sys.argv)==3 and sys.argv[1] == '-u':
+	if sys.argv[2] not in encrypted:
+		print "No such alias"
+
+	else:
+		umount(decrypted_path + sys.argv[2])
+
+# Wrong usage
+else:
+	print "Usage:";
+	print "       encfs-mount my-alias"
+	print "       encfs-mount -u my-alias"
