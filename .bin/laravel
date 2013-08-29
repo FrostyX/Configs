@@ -1,0 +1,42 @@
+#!/bin/bash
+# Easily create Laravel (http://laravel.com/) project.
+# Usage:
+#         laravel project-name -3
+#         laravel project-name -4
+#
+# Author: FrostyX
+
+
+# Create Laravel3 project using $1 as the name
+function L3 () {
+	local projectName=$1
+	if [ -a $projectName ]; then
+		echo "File already exists!"
+	else
+		wget https://github.com/laravel/laravel/archive/v3.2.14.tar.gz -O /tmp/l3.tar.gz
+		tar -xf /tmp/l3.tar.gz --directory=/tmp
+		mv /tmp/laravel-3.2.14 $projectName
+
+		echo "Project $projectName was created!"
+	fi
+}
+
+# Create Laravel4 project using $1 as the name
+function L4 () {
+	local projectName=$1
+	# Requires composer script in $PATH
+	# http://getcomposer.org/download/
+	composer create-project laravel/laravel $1 --prefer-dist
+}
+
+function usage () {
+	echo "Usage:"
+	echo "    laravel project-name -3"
+	echo "    laravel project-name -4"
+}
+
+case "$2" in
+	"-3") L3 $1 ;;
+	"-4") L4 $1 ;;
+	*) usage  ;;
+esac
