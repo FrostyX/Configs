@@ -1,0 +1,49 @@
+#!/usr/bin/python
+
+import sys
+import os
+
+
+if len(sys.argv) != 2:
+	print "Usage: rename-subtitles path-to-directory"
+	quit()
+
+PATH = sys.argv[1]
+
+if not os.path.isdir(PATH):
+	print "Not a directory: " + PATH
+	quit()
+
+# Recursively rename subtitle files to match movie files in all subdirectories
+def rename_subtitles(path):
+	path = add_slash(path)
+	subtitles = None
+	movie = None
+	for file in os.listdir(path):
+		file = path + file
+
+		if file.endswith('.srt'):
+			subtitles = file
+
+		elif file.endswith('.avi') or file.endswith('.mp4') or file.endswith('mkv'):
+			movie = file
+
+		elif os.path.isdir(file):
+			rename_subtitles(file)
+
+
+	if not (subtitles and movie):
+		return
+
+	new_name = os.path.splitext(movie)[0] + os.path.splitext(subtitles)[1]
+	if new_name != subtitles:
+		print "Renaming to: " + new_name
+		os.rename(subtitles, new_name)
+
+# Add slash to end of filename if there isn't such
+# Return /foo/bar/ for /foo/bar or /foo/bar/
+def add_slash(file):
+	return file if file.endswith('/') else file + '/'
+
+
+rename_subtitles(PATH)
